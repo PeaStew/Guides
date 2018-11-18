@@ -30,11 +30,7 @@ for FILE in ~/bin/monkeyd_$PARAM1.sh; do
 	  GETBLOCKHASH=$(~/bin/monkey-cli_$MONKNAME.sh getblockhash $LASTBLOCK)  
 	  
 	  LASTBLOCKCOINEXPLORERMONK=$(curl -s4 https://www.coinexplorer.net/api/MONK/block/latest)
-	  BLOCKHASHCOINEXPLORERMONK=', ' read -r -a array <<< $LASTBLOCKCOINEXPLORERMONK
-	  BLOCKHASHCOINEXPLORERMONK=${array[6]}
-	  BLOCKHASHCOINEXPLORERMONK=$(echo $BLOCKHASHCOINEXPLORERMONK | tr , " ")
-	  BLOCKHASHCOINEXPLORERMONK=$(echo $BLOCKHASHCOINEXPLORERMONK | tr '"' " ")
-	  BLOCKHASHCOINEXPLORERMONK="$(echo -e "${BLOCKHASHCOINEXPLORERMONK}" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+	  BLOCKHASHCOINEXPLORERMONK=$(echo $LASTBLOCKCOINEXPLORERMONK | jq -r ".result.hash")	 
 	  
 	  WALLETVERSION=$(~/bin/monkey-cli_$MONKNAME.sh getinfo | grep -i \"version\")
 	  WALLETVERSION=$(echo $WALLETVERSION | tr , " ")
